@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<views xmlns="http://schemas.haulmont.com/cuba/view.xsd">
+    <view class="ru.iovchinnikov.talks.entity.Comment"
+          extends="_minimal"
+          name="comment-view">
+        <property name="parent"
+                  view="_minimal">
+            <property name="author"
+                      view="_minimal"/>
+            <property name="date"/>
+        </property>
+        <property name="contents"/>
+        <property name="author"
+                  view="_minimal"/>
+        <property name="date"/>
+        <property name="entity"/>
+        <property name="entityName"/>
+    </view>
+</views>

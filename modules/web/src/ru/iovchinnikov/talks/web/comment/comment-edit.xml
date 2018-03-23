@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://editorCaption"
+        class="ru.iovchinnikov.talks.web.comment.CommentEdit"
+        datasource="commentDs"
+        focusComponent="fieldGroup"
+        messagesPack="ru.iovchinnikov.talks.web.comment">
+    <dsContext>
+        <datasource id="commentDs"
+                    class="ru.iovchinnikov.talks.entity.Comment"
+                    view="comment-view"/>
+    </dsContext>
+    <dialogMode forceDialog="true"
+                height="400"
+                width="600"/>
+    <layout expand="windowActions"
+            spacing="true">
+        <fieldGroup id="fieldGroup"
+                    datasource="commentDs"
+                    width="100%">
+            <column width="100%">
+                <field property="parent"/>
+                <field property="contents"
+                       rows="5"/>
+                <field property="author"/>
+                <field property="date"/>
+            </column>
+        </fieldGroup>
+        <frame id="windowActions"
+               screen="editWindowActions"/>
+    </layout>
+</window>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://browseCaption"
+        class="ru.iovchinnikov.talks.web.comment.CommentBrowse"
+        focusComponent="commentsTable"
+        lookupComponent="commentsTable"
+        messagesPack="ru.iovchinnikov.talks.web.comment">
+    <dsContext>
+        <groupDatasource id="commentsDs"
+                         class="ru.iovchinnikov.talks.entity.Comment"
+                         view="comment-view">
+            <query>
+                <![CDATA[select e from discuss$Comment e order by e.date]]>
+            </query>
+        </groupDatasource>
+    </dsContext>
+    <dialogMode height="600"
+                width="800"/>
+    <layout spacing="true">
+        <groupTable id="commentsTable"
+                    align="BOTTOM_LEFT"
+                    height="100%"
+                    width="100%">
+            <actions>
+                <action id="create"/>
+                <action id="remove"/>
+            </actions>
+            <columns>
+                <column id="date"/>
+                <column id="parent"/>
+                <column id="contents"/>
+                <column id="author"/>
+            </columns>
+            <rows datasource="commentsDs"/>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn"
+                        action="commentsTable.create"/>
+                <button id="removeBtn"
+                        action="commentsTable.remove"/>
+            </buttonsPanel>
+        </groupTable>
+    </layout>
+</window>
