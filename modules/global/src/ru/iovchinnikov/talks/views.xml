@@ -15,5 +15,6 @@
         <property name="date"/>
         <property name="entity"/>
         <property name="entityName"/>
+        <property name="isAnswer"/>
     </view>
 </views>

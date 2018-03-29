@@ -33,11 +33,7 @@ public class TestEntityEdit extends AbstractEditor<TestEntity> {
                     .applyParameters();
         else
             comments.initialize()
-                    .setFrameVisible(false)
-                    .setCurrentUser(userSession.getUser())
-                    .setCurrentEntityId(getItem().getId())
-                    .setCurrentEntityName(dbName)
-                    .applyParameters();
+                    .setFrameVisible(false);
 
         super.ready();
     }

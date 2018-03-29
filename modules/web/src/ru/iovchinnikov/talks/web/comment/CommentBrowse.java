@@ -1,5 +1,6 @@
 package ru.iovchinnikov.talks.web.comment;
 
+import com.haulmont.cuba.core.global.TimeSource;
 import com.haulmont.cuba.gui.components.AbstractLookup;
 import com.haulmont.cuba.gui.components.actions.CreateAction;
 import com.haulmont.cuba.gui.data.GroupDatasource;
@@ -15,6 +16,7 @@ import java.util.UUID;
 public class CommentBrowse extends AbstractLookup {
 
     @Inject private GroupDatasource<Comment, UUID> commentsDs;
+    @Inject private TimeSource timeSource;
     @Named("commentsTable.create")
     private CreateAction commentsTableCreate;
     private Initializer parentInfo;
@@ -59,6 +61,7 @@ public class CommentBrowse extends AbstractLookup {
             params.put("user", parentInfo.currentUser);
             params.put("entity", parentInfo.currentEntity);
             params.put("eName", parentInfo.entityName);
+            params.put("ts", timeSource.currentTimestamp());
             commentsTableCreate.setWindowParams(params);
 
             commentsDs.setQuery("SELECT e " +
@@ -66,7 +69,8 @@ public class CommentBrowse extends AbstractLookup {
                                 "WHERE e.entity " +
                                 "IN (SELECT n.id " +
                                     "FROM " + parentInfo.entityName + " n " +
-                                    "WHERE n.id = '" + currentEntity + "') ");
+                                    "WHERE n.id = '" + currentEntity + "') " +
+                                "ORDER BY e.date DESC");
             commentsDs.refresh();
         }
     }
