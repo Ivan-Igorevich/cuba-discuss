@@ -23,8 +23,8 @@ public class Comment extends StandardEntity {
     @JoinColumn(name = "PARENT_ID")
     protected Comment parent;
 
-    @Column(name = "IS_ANSWER")
-    protected Boolean isAnswer;
+    @Column(name = "HAS_ANSWER")
+    protected Boolean hasAnswer;
 
     @Lob
     @Column(name = "CONTENTS")
@@ -44,12 +44,13 @@ public class Comment extends StandardEntity {
     @Column(name = "ENTITY_NAME")
     protected String entityName;
 
-    public void setIsAnswer(Boolean isAnswer) {
-        this.isAnswer = isAnswer;
+
+    public void setHasAnswer(Boolean hasAnswer) {
+        this.hasAnswer = hasAnswer;
     }
 
-    public Boolean getIsAnswer() {
-        return isAnswer;
+    public Boolean getHasAnswer() {
+        return hasAnswer;
     }
 
 
@@ -60,7 +61,6 @@ public class Comment extends StandardEntity {
     public String getEntityName() {
         return entityName;
     }
-
 
     public void setParent(Comment parent) {
         this.parent = parent;

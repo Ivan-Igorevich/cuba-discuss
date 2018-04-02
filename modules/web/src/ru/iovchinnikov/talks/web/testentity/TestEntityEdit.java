@@ -1,6 +1,5 @@
 package ru.iovchinnikov.talks.web.testentity;
 
-import com.haulmont.chile.core.model.MetaClass;
 import com.haulmont.cuba.core.global.Metadata;
 import com.haulmont.cuba.gui.components.AbstractEditor;
 import com.haulmont.cuba.security.global.UserSession;
@@ -25,15 +24,11 @@ public class TestEntityEdit extends AbstractEditor<TestEntity> {
     @Override
     public void ready() {
         String dbName = metadata.getSession().getClassNN(getItem().getClass()).getName();
-        if (!isNew)
-            comments.initialize()
-                    .setCurrentUser(userSession.getUser())
-                    .setCurrentEntityId(getItem().getId())
-                    .setCurrentEntityName(dbName)
-                    .applyParameters();
-        else
-            comments.initialize()
-                    .setFrameVisible(false);
+        comments.initialize(isNew)
+                .setCurrentUser(userSession.getUser())
+                .setCurrentEntityId(getItem().getId())
+                .setCurrentEntityName(dbName)
+                .applyParameters();
 
         super.ready();
     }

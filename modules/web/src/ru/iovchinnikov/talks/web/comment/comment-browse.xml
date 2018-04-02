@@ -25,12 +25,14 @@
                     width="100%">
             <actions>
                 <action id="create"/>
-                <action id="remove"/>
+                <action id="remove"
+                        trackSelection="true"/>
+                <action id="edit"/>
             </actions>
             <columns>
                 <column id="date"
                         width="100"/>
-                <column id="isAnswer"/>
+                <column id="hasAnswer"/>
                 <column id="contents"/>
                 <column id="author"/>
             </columns>
@@ -39,6 +41,8 @@
                           alwaysVisible="true">
                 <button id="createBtn"
                         action="commentsTable.create"/>
+                <button id="editBtn"
+                        action="commentsTable.edit"/>
                 <button id="removeBtn"
                         action="commentsTable.remove"/>
             </buttonsPanel>

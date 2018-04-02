@@ -2,9 +2,13 @@ package ru.iovchinnikov.talks.web.comment;
 
 import com.haulmont.cuba.core.global.TimeSource;
 import com.haulmont.cuba.gui.components.AbstractLookup;
+import com.haulmont.cuba.gui.components.GroupTable;
 import com.haulmont.cuba.gui.components.actions.CreateAction;
+import com.haulmont.cuba.gui.components.actions.EditAction;
+import com.haulmont.cuba.gui.components.actions.RemoveAction;
 import com.haulmont.cuba.gui.data.GroupDatasource;
 import com.haulmont.cuba.security.entity.User;
+import com.haulmont.cuba.security.global.UserSession;
 import ru.iovchinnikov.talks.entity.Comment;
 
 import javax.inject.Inject;
@@ -17,12 +21,40 @@ public class CommentBrowse extends AbstractLookup {
 
     @Inject private GroupDatasource<Comment, UUID> commentsDs;
     @Inject private TimeSource timeSource;
-    @Named("commentsTable.create")
-    private CreateAction commentsTableCreate;
+    @Inject private GroupTable<Comment> commentsTable;
+    @Inject private UserSession userSession;
+    @Named("commentsTable.create") private CreateAction commentsTableCreate;
+    @Named("commentsTable.edit") private EditAction commentsTableEdit;
     private Initializer parentInfo;
 
-    public Initializer initialize() {
+    @Override
+    public void init(Map<String, Object> params) {
+        super.init(params);
+        // doesn't work in initializer's methods
+        commentsTable.addAction(new RemoveAction(commentsTable) {
+            @Override
+            protected boolean isApplicable() {
+                // super implementation checks that target != null and target has selected items,
+                boolean applicable = super.isApplicable();
+                    if (applicable) {
+                        for(Comment c : commentsTable.getSelected()) {
+                            if (!(c.getAuthor().getLogin().equals(userSession.getCurrentOrSubstitutedUser().getLogin()))) {
+                                applicable = false;
+                            }
+                        }
+                    }
+                return applicable;
+            }
+        });
+
+    }
+
+    /**
+     * Preferred initializer
+     */
+    public Initializer initialize(boolean isNew) {
         this.parentInfo = new Initializer(this);
+        if (isNew) parentInfo.setFrameVisible(false);
         return this.parentInfo;
     }
 
@@ -56,6 +88,10 @@ public class CommentBrowse extends AbstractLookup {
             return this;
         }
 
+        /**
+         * This method should be invoked to initialize the frame with current parameters,
+         * and send parameters to 'create' action.
+         */
         public void applyParameters() {
             Map<String, Object> params = new HashMap<>();
             params.put("user", parentInfo.currentUser);
@@ -63,7 +99,7 @@ public class CommentBrowse extends AbstractLookup {
             params.put("eName", parentInfo.entityName);
             params.put("ts", timeSource.currentTimestamp());
             commentsTableCreate.setWindowParams(params);
-
+            commentsTableEdit.setCaption(getMessage("editView"));
             commentsDs.setQuery("SELECT e " +
                                 "FROM discuss$Comment e " +
                                 "WHERE e.entity " +
