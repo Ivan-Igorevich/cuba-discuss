@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<app-component xmlns="http://schemas.haulmont.com/cuba/app-component.xsd"
+               dependsOn="com.haulmont.cuba">
+    <module blocks="*"
+            name="global">
+        <artifact appJar="true"
+                  name="talks-global"/>
+        <property name="cuba.persistenceConfig"
+                  value="+ru/iovchinnikov/talks/persistence.xml"/>
+        <property name="cuba.metadataConfig"
+                  value="+ru/iovchinnikov/talks/metadata.xml"/>
+        <property name="cuba.viewsConfig"
+                  value="+ru/iovchinnikov/talks/views.xml"/>
+    </module>
+    <module blocks="core"
+            dependsOn="global"
+            name="core">
+        <artifact appJar="true"
+                  name="talks-core"/>
+        <artifact classifier="db"
+                  configuration="dbscripts"
+                  ext="zip"
+                  name="talks-core"/>
+        <property name="cuba.springContextConfig"
+                  value="+ru/iovchinnikov/talks/spring.xml"/>
+        <property name="cuba.mainMessagePack"
+                  value="+ru.iovchinnikov.talks.core"/>
+    </module>
+    <module blocks="web,desktop"
+            dependsOn="global"
+            name="gui">
+        <artifact appJar="true"
+                  name="talks-gui"/>
+    </module>
+    <module blocks="web"
+            dependsOn="gui"
+            name="web">
+        <artifact appJar="true"
+                  name="talks-web"/>
+        <artifact classifier="web"
+                  configuration="webcontent"
+                  ext="zip"
+                  name="talks-web"/>
+        <property name="cuba.springContextConfig"
+                  value="+ru/iovchinnikov/talks/web-spring.xml"/>
+        <property name="cuba.dispatcherSpringContextConfig"
+                  value="+ru/iovchinnikov/talks/web-dispatcher-spring.xml"/>
+        <property name="cuba.windowConfig"
+                  value="+ru/iovchinnikov/talks/web-screens.xml"/>
+        <property name="cuba.menuConfig"
+                  value="+ru/iovchinnikov/talks/web-menu.xml"/>
+        <property name="cuba.permissionConfig"
+                  value="+ru/iovchinnikov/talks/web-permissions.xml"/>
+        <property name="cuba.mainMessagePack"
+                  value="+ru.iovchinnikov.talks.web"/>
+    </module>
+</app-component>
