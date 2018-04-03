@@ -1,8 +1,9 @@
 package ru.iovchinnikov.talks.web.comment;
 
+import com.haulmont.cuba.core.global.Metadata;
 import com.haulmont.cuba.core.global.TimeSource;
-import com.haulmont.cuba.gui.components.AbstractLookup;
-import com.haulmont.cuba.gui.components.GroupTable;
+import com.haulmont.cuba.gui.WindowManager;
+import com.haulmont.cuba.gui.components.*;
 import com.haulmont.cuba.gui.components.actions.CreateAction;
 import com.haulmont.cuba.gui.components.actions.EditAction;
 import com.haulmont.cuba.gui.components.actions.RemoveAction;
@@ -23,6 +24,7 @@ public class CommentBrowse extends AbstractLookup {
     @Inject private TimeSource timeSource;
     @Inject private GroupTable<Comment> commentsTable;
     @Inject private UserSession userSession;
+    @Inject private Metadata metadata;
     @Named("commentsTable.create") private CreateAction commentsTableCreate;
     @Named("commentsTable.edit") private EditAction commentsTableEdit;
     private Initializer parentInfo;
@@ -46,7 +48,6 @@ public class CommentBrowse extends AbstractLookup {
                 return applicable;
             }
         });
-
     }
 
     /**
@@ -111,4 +112,34 @@ public class CommentBrowse extends AbstractLookup {
         }
     }
 
+    public void onBtnReplyClick() {
+        Comment currentComment = commentsTable.getSingleSelected();
+        if (currentComment == null) {
+            showNotification(getMessage("selectComment"));
+            return;
+        }
+        Comment newComment = metadata.create(Comment.class);
+        newComment.setDate(timeSource.currentTimestamp());
+        newComment.setAuthor(parentInfo.currentUser);
+        newComment.setEntity(parentInfo.currentEntity);
+        newComment.setEntityName(parentInfo.entityName);
+        // move this to editor close listener
+//        currentComment.setHasAnswer(true);
+        Map<String, Object> param = new HashMap<>();
+        param.put("parent", currentComment);
+        AbstractEditor editorWindow = openEditor(newComment, WindowManager.OpenType.DIALOG, param);
+        editorWindow.addCloseListener(actionId -> {
+            switch (actionId) {
+                case "commit":
+                    currentComment.setHasAnswer(true);
+                    break;
+                case "windowClose":
+                    break;
+                default:
+                    break;
+            }
+            commentsDs.commit();
+            commentsDs.refresh();
+        });
+    }
 }

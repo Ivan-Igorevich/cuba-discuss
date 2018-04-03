@@ -13,7 +13,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import com.haulmont.cuba.core.entity.StandardEntity;
+import com.haulmont.chile.core.annotations.NamePattern;
 
+@NamePattern("%s %s|date,author")
 @Table(name = "DISCUSS_COMMENT")
 @Entity(name = "discuss$Comment")
 public class Comment extends StandardEntity {

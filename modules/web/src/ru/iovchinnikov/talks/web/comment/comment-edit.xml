@@ -26,6 +26,9 @@
                 <field property="date"/>
             </column>
         </fieldGroup>
+        <button id="btnClose"
+                invoke="btnCloseClick"
+                caption="msg://btnCloseCaption"/>
         <frame id="windowActions"
                screen="editWindowActions"/>
     </layout>

@@ -25,9 +25,8 @@
                     width="100%">
             <actions>
                 <action id="create"/>
-                <action id="remove"
-                        trackSelection="true"/>
                 <action id="edit"/>
+                <action id="remove"/>
             </actions>
             <columns>
                 <column id="date"
@@ -41,6 +40,9 @@
                           alwaysVisible="true">
                 <button id="createBtn"
                         action="commentsTable.create"/>
+                <button id="btnReply"
+                        caption="msg://btnReplyCaption"
+                        invoke="onBtnReplyClick"/>
                 <button id="editBtn"
                         action="commentsTable.edit"/>
                 <button id="removeBtn"
