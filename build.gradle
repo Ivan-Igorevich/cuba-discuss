@@ -2,7 +2,6 @@
 buildscript {
     ext.cubaVersion = '6.6.1'
     repositories {
-        
         maven {
             url 'http://localhost:8081/nexus/content/groups/cuba-group/'
             credentials {
@@ -10,19 +9,16 @@ buildscript {
                 password(rootProject.hasProperty('repoPass') ? rootProject['repoPass'] : 'admin123')
             }
         }
-        
     }
     dependencies {
         classpath "com.haulmont.gradle:cuba-plugin:$cubaVersion"
     }
 }
 
-def modulePrefix = 'talks'
-
-def globalModule = project(":${modulePrefix}-global")
-def coreModule = project(":${modulePrefix}-core")
-def guiModule = project(":${modulePrefix}-gui")
-def webModule = project(":${modulePrefix}-web")
+def globalModule = project(':talks-global')
+def coreModule = project(':talks-core')
+def guiModule = project(':talks-gui')
+def webModule = project(':talks-web')
 
 def servletApi = 'org.apache.tomcat:tomcat-servlet-api:8.0.26'
 
@@ -33,8 +29,8 @@ apply(plugin: 'cuba')
 cuba {
     artifact {
         group = 'ru.iovchinnikov.talks'
-        version = '0.1'
-        isSnapshot = true
+        version = '1.0'
+        isSnapshot = false
     }
     tomcat {
         dir = "$project.rootDir/deploy/tomcat"
@@ -46,7 +42,7 @@ dependencies {
 
 }
 
-def hsql = 'org.hsqldb:hsqldb:2.2.9'
+def postgres = 'org.postgresql:postgresql:9.4.1212'
 
 configure([globalModule, coreModule, guiModule, webModule]) {
     apply(plugin: 'java')
@@ -71,13 +67,13 @@ configure([globalModule, coreModule, guiModule, webModule]) {
 configure(globalModule) {
     task enhance(type: CubaEnhancing)
 
+    
     jar {
         manifest {
             attributes('App-Component-Id': cuba.artifact.group)
             attributes('App-Component-Version': cuba.artifact.version + (cuba.artifact.isSnapshot ? '-SNAPSHOT' : ''))
         }
     }
-
     
 }
 
@@ -91,14 +87,14 @@ configure(coreModule) {
     dependencies {
         compile(globalModule)
         provided(servletApi)
-        jdbc(hsql)
-        testRuntime(hsql)
+        jdbc(postgres)
+        testRuntime(postgres)
 
     }
 
     task cleanConf(description: 'Cleans up conf directory') {
         doLast {
-            def dir = new File(cuba.tomcat.dir, "/conf/${modulePrefix}-core")
+            def dir = new File(cuba.tomcat.dir, '/conf/talks-core')
             if (dir.isDirectory()) {
                 ant.delete(includeemptydirs: true) {
                     fileset(dir: dir, includes: '**/*', excludes: 'local.app.properties')
@@ -108,24 +104,24 @@ configure(coreModule) {
     }
 
     task deploy(dependsOn: [assemble, cleanConf], type: CubaDeployment) {
-        appName = "${modulePrefix}-core"
-        appJars(modulePrefix + '-global', modulePrefix + '-core')
+        appName = 'talks-core'
+        appJars('talks-global', 'talks-core')
     }
 
     task createDb(dependsOn: assembleDbScripts, description: 'Creates local database', type: CubaDbCreation) {
-        dbms = 'hsql'
+        dbms = 'postgres'
         host = 'localhost'
         dbName = 'discuss'
-        dbUser = 'sa'
-        dbPassword = ''
+        dbUser = 'postgres'
+        dbPassword = 'postgres'
     }
 
     task updateDb(dependsOn: assembleDbScripts, description: 'Updates local database', type: CubaDbUpdate) {
-        dbms = 'hsql'
+        dbms = 'postgres'
         host = 'localhost'
         dbName = 'discuss'
-        dbUser = 'sa'
-        dbPassword = ''
+        dbUser = 'postgres'
+        dbPassword = 'postgres'
     }
 }
 
@@ -138,7 +134,7 @@ configure(guiModule) {
     task deployConf(type: Copy) {
         from file('src')
         include "ru/iovchinnikov/talks/**"
-        into "$cuba.tomcat.dir/conf/${modulePrefix}"
+        into "$cuba.tomcat.dir/conf/talks"
     }
 }
 
@@ -166,17 +162,17 @@ configure(webModule) {
     task deployConf(type: Copy) {
         from file('src')
         include "ru/iovchinnikov/talks/**"
-        into "$cuba.tomcat.dir/conf/${modulePrefix}"
+        into "$cuba.tomcat.dir/conf/talks"
     }
 
     task clearMessagesCache(type: CubaClearMessagesCache) {
-        appName = "${modulePrefix}"
+        appName = 'talks'
     }
     deployConf.dependsOn clearMessagesCache
 
     task cleanConf(description: 'Cleans up conf directory') {
         doLast {
-            def dir = new File(cuba.tomcat.dir, "/conf/${modulePrefix}")
+            def dir = new File(cuba.tomcat.dir, '/conf/talks')
             if (dir.isDirectory()) {
                 ant.delete(includeemptydirs: true) {
                     fileset(dir: dir, includes: '**/*', excludes: 'local.app.properties')
@@ -186,8 +182,8 @@ configure(webModule) {
     }
 
     task deploy(dependsOn: [assemble, cleanConf], type: CubaDeployment) {
-        appName = "${modulePrefix}"
-        appJars(modulePrefix + '-global', modulePrefix + '-gui', modulePrefix + '-web')
+        appName = 'talks'
+        appJars('talks-global', 'talks-gui', 'talks-web')
     }
 }
 
@@ -195,13 +191,13 @@ configure(webModule) {
 
 
 
-task undeploy(type: Delete, dependsOn: ":${modulePrefix}-web:cleanConf") {
+task undeploy(type: Delete, dependsOn: ':talks-web:cleanConf') {
     delete("$cuba.tomcat.dir/shared")
-    delete("$cuba.tomcat.dir/webapps/${modulePrefix}-core")
-    delete("$cuba.tomcat.dir/webapps/${modulePrefix}")
+    delete("$cuba.tomcat.dir/webapps/talks-core")
+    delete("$cuba.tomcat.dir/webapps/talks")
 }
 
-task restart(dependsOn: ['stop', ":${modulePrefix}-core:deploy", ":${modulePrefix}-web:deploy"], description: 'Redeploys applications and restarts local Tomcat') {
+task restart(dependsOn: ['stop', ':talks-core:deploy', ':talks-web:deploy'], description: 'Redeploys applications and restarts local Tomcat') {
     doLast {
         ant.waitfor(maxwait: 6, maxwaitunit: 'second', checkevery: 2, checkeveryunit: 'second') {
             not {
@@ -213,7 +209,7 @@ task restart(dependsOn: ['stop', ":${modulePrefix}-core:deploy", ":${modulePrefi
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '3.4.1'
+    gradleVersion = '3.4'
 }
 
 apply from: 'extra.gradle'
