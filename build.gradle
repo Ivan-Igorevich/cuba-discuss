@@ -4,10 +4,10 @@ buildscript {
     repositories {
         
         maven {
-            url 'https://repo.cuba-platform.com/content/groups/work'
+            url 'http://localhost:8081/nexus/content/groups/cuba-group/'
             credentials {
-                username(rootProject.hasProperty('repoUser') ? rootProject['repoUser'] : 'cuba')
-                password(rootProject.hasProperty('repoPass') ? rootProject['repoPass'] : 'cuba123')
+                username(rootProject.hasProperty('repoUser') ? rootProject['repoUser'] : 'admin')
+                password(rootProject.hasProperty('repoPass') ? rootProject['repoPass'] : 'admin123')
             }
         }
         
