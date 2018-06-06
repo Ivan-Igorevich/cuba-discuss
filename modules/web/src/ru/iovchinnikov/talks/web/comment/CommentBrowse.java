@@ -51,7 +51,7 @@ public class CommentBrowse extends AbstractLookup {
     }
 
     /**
-     * Preferred initializer
+     * Preferred EDIT-frame initializer
      */
     public Initializer initialize(boolean isNew) {
         this.parentInfo = new Initializer(this);
@@ -90,10 +90,18 @@ public class CommentBrowse extends AbstractLookup {
         }
 
         /**
+         * Avoid using this method, it would be removed in further updates
+         * */
+        @Deprecated
+        public void applyParameters() {
+            applyAndShow();
+        }
+
+        /**
          * This method should be invoked to initialize the frame with current parameters,
          * and send parameters to 'create' action.
          */
-        public void applyParameters() {
+        public void applyAndShow() {
             Map<String, Object> params = new HashMap<>();
             params.put("user", parentInfo.currentUser);
             params.put("entity", parentInfo.currentEntity);
@@ -109,6 +117,7 @@ public class CommentBrowse extends AbstractLookup {
                                     "WHERE n.id = '" + currentEntity + "') " +
                                 "ORDER BY e.date DESC");
             commentsDs.refresh();
+            setFrameVisible(true);
         }
     }
 
@@ -123,8 +132,6 @@ public class CommentBrowse extends AbstractLookup {
         newComment.setAuthor(parentInfo.currentUser);
         newComment.setEntity(parentInfo.currentEntity);
         newComment.setEntityName(parentInfo.entityName);
-        // move this to editor close listener
-//        currentComment.setHasAnswer(true);
         Map<String, Object> param = new HashMap<>();
         param.put("parent", currentComment);
         AbstractEditor editorWindow = openEditor(newComment, WindowManager.OpenType.DIALOG, param);

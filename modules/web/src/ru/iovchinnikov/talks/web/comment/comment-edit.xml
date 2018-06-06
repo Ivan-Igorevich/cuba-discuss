@@ -15,23 +15,28 @@
                 width="600"/>
     <layout expand="windowActions"
             spacing="true">
+        <hbox width="100%" expand="lbtnParent" spacing="true">
+            <label id="lblParent" value="msg://parent"/>
+            <linkButton id="lbtnParent" invoke="btnParentClick"/>
+        </hbox>
         <fieldGroup id="fieldGroup"
                     datasource="commentDs"
                     width="100%">
             <column width="100%">
-                <field property="parent"/>
+                <field property="date"
+                       editable="false"/>
+                <field property="author"
+                       editable="false"/>
                 <field property="contents"
                        rows="5"/>
-                <field property="author"/>
-                <field property="date"/>
             </column>
         </fieldGroup>
         <frame id="windowActions"
                screen="editWindowActions"/>
         <buttonsPanel align="BOTTOM_LEFT">
             <button id="btnClose"
-                    invoke="btnCloseClick"
-                    caption="msg://btnCloseCaption"/>
+                    caption="msg://btnCloseCaption"
+                    invoke="btnCloseClick"/>
         </buttonsPanel>
     </layout>
 </window>

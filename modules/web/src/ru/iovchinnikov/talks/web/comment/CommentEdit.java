@@ -1,11 +1,14 @@
 package ru.iovchinnikov.talks.web.comment;
 
+import com.haulmont.cuba.gui.WindowManager;
 import com.haulmont.cuba.gui.components.*;
 import com.haulmont.cuba.security.entity.User;
+import com.sun.javafx.binding.StringFormatter;
 import ru.iovchinnikov.talks.entity.Comment;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
@@ -24,10 +27,9 @@ public class CommentEdit extends AbstractEditor<Comment> {
 
     @Inject private Button btnClose;
     @Inject private Frame windowActions;
-    @Named("fieldGroup.author") private PickerField authorField;
+    @Inject private LinkButton lbtnParent;
+    @Inject private Label lblParent;
     @Named("fieldGroup.contents") private ResizableTextArea contentsField;
-    @Named("fieldGroup.date") private DateField dateField;
-    @Named("fieldGroup.parent") private PickerField parentField;
 
     @Override
     public void init(Map<String, Object> params) {
@@ -55,20 +57,24 @@ public class CommentEdit extends AbstractEditor<Comment> {
             getItem().setDate(timestamp);
             getItem().setHasAnswer(false);
             btnClose.setVisible(false);
+            lblParent.setVisible(false);
         } else if (state == STATE_VIEW) {
             contentsField.setEditable(false);
-            if (getItem().getParent() == null)
-                parentField.setVisible(false);
+            if (getItem().getParent() == null) {
+                lblParent.setVisible(false);
+                lbtnParent.setVisible(false);
+            } else {
+                lbtnParent.setCaption(String.format("%s, %s", getItem().getParent().getDate(), getItem().getParent().getAuthor().getName()));
+                lbtnParent.setVisible(true);
+            }
             windowActions.setVisible(false);
         } else if (state == STATE_REPLY) {
             getItem().setParent(parent);
-            parentField.setVisible(true);
+            lbtnParent.setCaption(String.format("%s, %s", parent.getDate(), parent.getAuthor().getName()));
+            lbtnParent.setVisible(true);
             contentsField.setEditable(true);
             btnClose.setVisible(false);
         }
-        authorField.setEditable(false);
-        dateField.setEditable(false);
-        parentField.setEditable(false);
 
         super.ready();
     }
@@ -85,5 +91,9 @@ public class CommentEdit extends AbstractEditor<Comment> {
 
     public void btnCloseClick() {
         close("CLOSE_ID");
+    }
+
+    public void btnParentClick() {
+        openEditor(getItem().getParent(), WindowManager.OpenType.DIALOG);
     }
 }

@@ -6,8 +6,4 @@
     <screen id="discuss$Comment.edit"
             multipleOpen="true"
             template="ru/iovchinnikov/talks/web/comment/comment-edit.xml"/>
-    <screen id="discuss$TestEntity.browse"
-            template="ru/iovchinnikov/talks/web/testentity/test-entity-browse.xml"/>
-    <screen id="discuss$TestEntity.edit"
-            template="ru/iovchinnikov/talks/web/testentity/test-entity-edit.xml"/>
 </screen-config>
