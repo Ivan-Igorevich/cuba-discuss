@@ -3,7 +3,6 @@
              version="2.0">
     <persistence-unit name="discuss"
                       transaction-type="RESOURCE_LOCAL">
-        <class>ru.iovchinnikov.talks.entity.TestEntity</class>
         <class>ru.iovchinnikov.talks.entity.Comment</class>
     </persistence-unit>
 </persistence>

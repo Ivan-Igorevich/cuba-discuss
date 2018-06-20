@@ -3,7 +3,7 @@ buildscript {
     ext.cubaVersion = '6.6.1'
     repositories {
         maven {
-            url 'http://localhost:8081/nexus/content/groups/cuba-group/'
+            url 'http://1.0.0.137:8010/nexus/content/groups/cuba-group/'
             credentials {
                 username(rootProject.hasProperty('repoUser') ? rootProject['repoUser'] : 'admin')
                 password(rootProject.hasProperty('repoPass') ? rootProject['repoPass'] : 'admin123')
@@ -27,9 +27,14 @@ apply(plugin: 'idea')
 apply(plugin: 'cuba')
 
 cuba {
+    uploadRepository {
+        url = 'http://1.0.0.137:8010/nexus/content/repositories/releases/'
+        user = 'admin'
+        password = 'admin123'
+    }
     artifact {
         group = 'ru.iovchinnikov.talks'
-        version = '1.0'
+        version = '1.1'
         isSnapshot = false
     }
     tomcat {
