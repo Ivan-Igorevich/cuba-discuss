@@ -5,16 +5,11 @@
           name="comment-view">
         <property name="parent"
                   view="_minimal">
-            <property name="author"
-                      view="_minimal"/>
-            <property name="date"/>
         </property>
         <property name="contents"/>
-        <property name="author"
-                  view="_minimal"/>
-        <property name="date"/>
         <property name="entity"/>
         <property name="entityName"/>
         <property name="hasAnswer"/>
+        <property name="commentStatus"/>
     </view>
 </views>

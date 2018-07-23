@@ -14,7 +14,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import com.haulmont.cuba.core.entity.StandardEntity;
 import com.haulmont.chile.core.annotations.NamePattern;
+import com.haulmont.cuba.core.entity.annotation.Listeners;
 
+@Listeners("discuss_CommentListener")
 @NamePattern("%s %s|date,author")
 @Table(name = "DISCUSS_COMMENT")
 @Entity(name = "discuss$Comment")
@@ -45,6 +47,18 @@ public class Comment extends StandardEntity {
 
     @Column(name = "ENTITY_NAME")
     protected String entityName;
+
+
+    @Column(name = "COMMENT_STATUS")
+    protected Integer commentStatus;
+
+    public void setCommentStatus(CommentStatus commentStatus) {
+        this.commentStatus = commentStatus == null ? null : commentStatus.getId();
+    }
+
+    public CommentStatus getCommentStatus() {
+        return commentStatus == null ? null : CommentStatus.fromId(commentStatus);
+    }
 
 
     public void setHasAnswer(Boolean hasAnswer) {

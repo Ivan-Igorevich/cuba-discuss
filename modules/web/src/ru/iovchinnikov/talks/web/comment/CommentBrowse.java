@@ -11,6 +11,8 @@ import com.haulmont.cuba.gui.data.GroupDatasource;
 import com.haulmont.cuba.security.entity.User;
 import com.haulmont.cuba.security.global.UserSession;
 import ru.iovchinnikov.talks.entity.Comment;
+import ru.iovchinnikov.talks.entity.CommentStatus;
+import ru.iovchinnikov.talks.service.ParamsService;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -25,6 +27,7 @@ public class CommentBrowse extends AbstractLookup {
     @Inject private GroupTable<Comment> commentsTable;
     @Inject private UserSession userSession;
     @Inject private Metadata metadata;
+    @Inject private ParamsService paramsService;
     @Named("commentsTable.create") private CreateAction commentsTableCreate;
     @Named("commentsTable.edit") private EditAction commentsTableEdit;
     private Initializer parentInfo;
@@ -109,14 +112,16 @@ public class CommentBrowse extends AbstractLookup {
             params.put("ts", timeSource.currentTimestamp());
             commentsTableCreate.setWindowParams(params);
             commentsTableEdit.setCaption(getMessage("editView"));
-            commentsDs.setQuery("SELECT e " +
+            paramsService.setParams(params);
+            commentsDs.refresh();
+            /*commentsDs.setQuery("SELECT e " +
                                 "FROM discuss$Comment e " +
                                 "WHERE e.entity " +
                                 "IN (SELECT n.id " +
                                     "FROM " + parentInfo.entityName + " n " +
                                     "WHERE n.id = '" + currentEntity + "') " +
-                                "ORDER BY e.date DESC");
-            commentsDs.refresh();
+                                "ORDER BY e.date DESC");*/
+            //commentsDs.refresh();
             setFrameVisible(true);
         }
     }
@@ -148,5 +153,21 @@ public class CommentBrowse extends AbstractLookup {
             commentsDs.commit();
             commentsDs.refresh();
         });
+    }
+
+    public void onHideBtnClick() {
+        commentsDs.getItem().setCommentStatus(CommentStatus.deleted);
+    }
+
+    public void onApproveBtnClick() {
+        if(commentsDs.getItem().getCommentStatus().equals(CommentStatus.notApproved)){
+            commentsDs.getItem().setCommentStatus(CommentStatus.approved);
+        }
+    }
+
+    public void onRejectBtnClick() {
+        if(commentsDs.getItem().getCommentStatus().equals(CommentStatus.notApproved)){
+            commentsDs.getItem().setCommentStatus(CommentStatus.rejected);
+        }
     }
 }
