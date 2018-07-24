@@ -5,25 +5,25 @@ import com.haulmont.chile.core.datatypes.impl.EnumClass;
 import javax.annotation.Nullable;
 
 
-public enum CommentStatus implements EnumClass<Integer> {
+public enum CommentStatus implements EnumClass<String> {
 
-    deleted(10),
-    notApproved(20),
-    approved(30),
-    rejected(40);
+    deleted("deleted"),
+    notApproved("notApproved"),
+    approved("approved"),
+    rejected("rejected");
 
-    private Integer id;
+    private String id;
 
-    CommentStatus(Integer value) {
+    CommentStatus(String value) {
         this.id = value;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
     @Nullable
-    public static CommentStatus fromId(Integer id) {
+    public static CommentStatus fromId(String id) {
         for (CommentStatus at : CommentStatus.values()) {
             if (at.getId().equals(id)) {
                 return at;

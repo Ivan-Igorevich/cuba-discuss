@@ -16,6 +16,7 @@ import ru.iovchinnikov.talks.service.ParamsService;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -28,6 +29,9 @@ public class CommentBrowse extends AbstractLookup {
     @Inject private UserSession userSession;
     @Inject private Metadata metadata;
     @Inject private ParamsService paramsService;
+    @Inject private Button approveBtn;
+    @Inject private Button rejectBtn;
+    @Inject private Button hideBtn;
     @Named("commentsTable.create") private CreateAction commentsTableCreate;
     @Named("commentsTable.edit") private EditAction commentsTableEdit;
     private Initializer parentInfo;
@@ -51,6 +55,7 @@ public class CommentBrowse extends AbstractLookup {
                 return applicable;
             }
         });
+        Collection<String> roles=userSession.getRoles();
     }
 
     /**
@@ -105,6 +110,14 @@ public class CommentBrowse extends AbstractLookup {
          * and send parameters to 'create' action.
          */
         public void applyAndShow() {
+            Collection<String> roles=userSession.getRoles();
+            for(String s:roles){
+                if(s.contentEquals("CommentModerator")){
+                    approveBtn.setVisible(true);
+                    rejectBtn.setVisible(true);
+                    hideBtn.setVisible(true);
+                }
+            }
             Map<String, Object> params = new HashMap<>();
             params.put("user", parentInfo.currentUser);
             params.put("entity", parentInfo.currentEntity);
@@ -156,18 +169,33 @@ public class CommentBrowse extends AbstractLookup {
     }
 
     public void onHideBtnClick() {
-        commentsDs.getItem().setCommentStatus(CommentStatus.deleted);
+        if(selected(commentsDs)) {
+            commentsDs.getItem().setCommentStatus(CommentStatus.deleted);
+        }
     }
 
     public void onApproveBtnClick() {
-        if(commentsDs.getItem().getCommentStatus().equals(CommentStatus.notApproved)){
-            commentsDs.getItem().setCommentStatus(CommentStatus.approved);
+        if(selected(commentsDs)) {
+            if (commentsDs.getItem().getCommentStatus().equals(CommentStatus.notApproved)) {
+                commentsDs.getItem().setCommentStatus(CommentStatus.approved);
+            }
         }
     }
 
     public void onRejectBtnClick() {
-        if(commentsDs.getItem().getCommentStatus().equals(CommentStatus.notApproved)){
-            commentsDs.getItem().setCommentStatus(CommentStatus.rejected);
+        if(selected(commentsDs)) {
+            if (commentsDs.getItem().getCommentStatus().equals(CommentStatus.notApproved)) {
+                commentsDs.getItem().setCommentStatus(CommentStatus.rejected);
+            }
+        }
+    }
+
+    private boolean selected(GroupDatasource groupDatasource){
+        if(groupDatasource.getItem()!=null){
+            return true;
+        }
+        else{
+            return false;
         }
     }
 }

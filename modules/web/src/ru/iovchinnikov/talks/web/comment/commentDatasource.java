@@ -38,10 +38,19 @@ public class commentDatasource extends CustomGroupDatasource<Comment,UUID> {
             loadContext.setView(viewRepository.getView(Comment.class,"comment-view"));
             ArrayList<Comment> comments=new ArrayList<>(dataManager.loadList(loadContext));
             for (Comment comment:comments){
+                if(comment.getCommentStatus()==null){
+                    continue;
+                }
                 if(comment.getCommentStatus().equals(CommentStatus.deleted)){
                     comment.setContents("Comment deleted");
                 }
             }
+            comments.removeIf(comment -> {
+                if(comment.getCommentStatus()==null){
+                    return false;
+                }
+                return comment.getCommentStatus().equals(CommentStatus.rejected);
+            });
             return comments;
         }
         else {

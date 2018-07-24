@@ -51,13 +51,16 @@
                         action="commentsTable.remove"/>
                 <button id="approveBtn"
                         caption="msg://Approve"
-                        invoke="onApproveBtnClick"/>
+                        invoke="onApproveBtnClick"
+                        visible="false"/>
                 <button id="rejectBtn"
                         caption="msg://Reject"
-                        invoke="onRejectBtnClick"/>
+                        invoke="onRejectBtnClick"
+                        visible="false"/>
                 <button id="hideBtn"
                         caption="msg://Hide"
-                        invoke="onHideBtnClick"/>
+                        invoke="onHideBtnClick"
+                        visible="false"/>
             </buttonsPanel>
         </groupTable>
     </layout>

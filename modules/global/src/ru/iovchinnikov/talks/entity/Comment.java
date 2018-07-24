@@ -50,15 +50,16 @@ public class Comment extends StandardEntity {
 
 
     @Column(name = "COMMENT_STATUS")
-    protected Integer commentStatus;
+    protected String commentStatus;
+
+    public CommentStatus getCommentStatus() {
+        return commentStatus == null ? null : CommentStatus.fromId(commentStatus);
+    }
 
     public void setCommentStatus(CommentStatus commentStatus) {
         this.commentStatus = commentStatus == null ? null : commentStatus.getId();
     }
 
-    public CommentStatus getCommentStatus() {
-        return commentStatus == null ? null : CommentStatus.fromId(commentStatus);
-    }
 
 
     public void setHasAnswer(Boolean hasAnswer) {
