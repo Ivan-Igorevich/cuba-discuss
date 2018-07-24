@@ -1,5 +1,6 @@
 package ru.iovchinnikov.talks.web.comment;
 
+import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.Metadata;
 import com.haulmont.cuba.core.global.TimeSource;
 import com.haulmont.cuba.gui.WindowManager;
@@ -32,6 +33,7 @@ public class CommentBrowse extends AbstractLookup {
     @Inject private Button approveBtn;
     @Inject private Button rejectBtn;
     @Inject private Button hideBtn;
+    @Inject private DataManager dataManager;
     @Named("commentsTable.create") private CreateAction commentsTableCreate;
     @Named("commentsTable.edit") private EditAction commentsTableEdit;
     private Initializer parentInfo;
@@ -171,6 +173,7 @@ public class CommentBrowse extends AbstractLookup {
     public void onHideBtnClick() {
         if(selected(commentsDs)) {
             commentsDs.getItem().setCommentStatus(CommentStatus.deleted);
+            dataManager.commit(commentsDs.getItem());
         }
     }
 
@@ -178,7 +181,9 @@ public class CommentBrowse extends AbstractLookup {
         if(selected(commentsDs)) {
             if (commentsDs.getItem().getCommentStatus().equals(CommentStatus.notApproved)) {
                 commentsDs.getItem().setCommentStatus(CommentStatus.approved);
+                dataManager.commit(commentsDs.getItem());
             }
+
         }
     }
 
@@ -186,6 +191,7 @@ public class CommentBrowse extends AbstractLookup {
         if(selected(commentsDs)) {
             if (commentsDs.getItem().getCommentStatus().equals(CommentStatus.notApproved)) {
                 commentsDs.getItem().setCommentStatus(CommentStatus.rejected);
+                dataManager.commit(commentsDs.getItem());
             }
         }
     }
