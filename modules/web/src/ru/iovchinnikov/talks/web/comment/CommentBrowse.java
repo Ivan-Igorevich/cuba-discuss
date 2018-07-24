@@ -11,9 +11,12 @@ import com.haulmont.cuba.gui.data.GroupDatasource;
 import com.haulmont.cuba.security.entity.User;
 import com.haulmont.cuba.security.global.UserSession;
 import ru.iovchinnikov.talks.entity.Comment;
+import ru.iovchinnikov.talks.entity.CommentStatus;
+import ru.iovchinnikov.talks.service.ParamsService;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -25,6 +28,10 @@ public class CommentBrowse extends AbstractLookup {
     @Inject private GroupTable<Comment> commentsTable;
     @Inject private UserSession userSession;
     @Inject private Metadata metadata;
+    @Inject private ParamsService paramsService;
+    @Inject private Button approveBtn;
+    @Inject private Button rejectBtn;
+    @Inject private Button hideBtn;
     @Named("commentsTable.create") private CreateAction commentsTableCreate;
     @Named("commentsTable.edit") private EditAction commentsTableEdit;
     private Initializer parentInfo;
@@ -48,6 +55,7 @@ public class CommentBrowse extends AbstractLookup {
                 return applicable;
             }
         });
+        Collection<String> roles=userSession.getRoles();
     }
 
     /**
@@ -102,6 +110,14 @@ public class CommentBrowse extends AbstractLookup {
          * and send parameters to 'create' action.
          */
         public void applyAndShow() {
+            Collection<String> roles=userSession.getRoles();
+            for(String s:roles){
+                if(s.contentEquals("CommentModerator")){
+                    approveBtn.setVisible(true);
+                    rejectBtn.setVisible(true);
+                    hideBtn.setVisible(true);
+                }
+            }
             Map<String, Object> params = new HashMap<>();
             params.put("user", parentInfo.currentUser);
             params.put("entity", parentInfo.currentEntity);
@@ -109,14 +125,16 @@ public class CommentBrowse extends AbstractLookup {
             params.put("ts", timeSource.currentTimestamp());
             commentsTableCreate.setWindowParams(params);
             commentsTableEdit.setCaption(getMessage("editView"));
-            commentsDs.setQuery("SELECT e " +
+            paramsService.setParams(params);
+            commentsDs.refresh();
+            /*commentsDs.setQuery("SELECT e " +
                                 "FROM discuss$Comment e " +
                                 "WHERE e.entity " +
                                 "IN (SELECT n.id " +
                                     "FROM " + parentInfo.entityName + " n " +
                                     "WHERE n.id = '" + currentEntity + "') " +
-                                "ORDER BY e.date DESC");
-            commentsDs.refresh();
+                                "ORDER BY e.date DESC");*/
+            //commentsDs.refresh();
             setFrameVisible(true);
         }
     }
@@ -148,5 +166,36 @@ public class CommentBrowse extends AbstractLookup {
             commentsDs.commit();
             commentsDs.refresh();
         });
+    }
+
+    public void onHideBtnClick() {
+        if(selected(commentsDs)) {
+            commentsDs.getItem().setCommentStatus(CommentStatus.deleted);
+        }
+    }
+
+    public void onApproveBtnClick() {
+        if(selected(commentsDs)) {
+            if (commentsDs.getItem().getCommentStatus().equals(CommentStatus.notApproved)) {
+                commentsDs.getItem().setCommentStatus(CommentStatus.approved);
+            }
+        }
+    }
+
+    public void onRejectBtnClick() {
+        if(selected(commentsDs)) {
+            if (commentsDs.getItem().getCommentStatus().equals(CommentStatus.notApproved)) {
+                commentsDs.getItem().setCommentStatus(CommentStatus.rejected);
+            }
+        }
+    }
+
+    private boolean selected(GroupDatasource groupDatasource){
+        if(groupDatasource.getItem()!=null){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }

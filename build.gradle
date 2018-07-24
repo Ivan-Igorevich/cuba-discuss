@@ -218,3 +218,8 @@ task wrapper(type: Wrapper) {
 }
 
 apply from: 'extra.gradle'
+
+task buildWar(type: CubaWarBuilding) {
+    appHome = '${app.home}'
+    singleWar = false
+}

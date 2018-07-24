@@ -6,4 +6,6 @@
     <screen id="discuss$Comment.edit"
             multipleOpen="true"
             template="ru/iovchinnikov/talks/web/comment/comment-edit.xml"/>
+    <screen id="discuss$CommentModerator.browse"
+            template="ru/iovchinnikov/talks/web/comment/comment-moderator-browse.xml"/>
 </screen-config>

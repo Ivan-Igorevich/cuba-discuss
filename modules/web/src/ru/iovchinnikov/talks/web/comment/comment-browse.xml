@@ -8,6 +8,7 @@
     <dsContext>
         <groupDatasource id="commentsDs"
                          class="ru.iovchinnikov.talks.entity.Comment"
+                         datasourceClass="ru.iovchinnikov.talks.web.comment.commentDatasource"
                          view="comment-view">
             <query>
                 <![CDATA[select e from discuss$Comment e order by e.date]]>
@@ -34,6 +35,7 @@
                 <column id="hasAnswer"/>
                 <column id="contents"/>
                 <column id="author"/>
+                <column id="commentStatus"/>
             </columns>
             <rows datasource="commentsDs"/>
             <buttonsPanel id="buttonsPanel"
@@ -47,6 +49,18 @@
                         action="commentsTable.edit"/>
                 <button id="removeBtn"
                         action="commentsTable.remove"/>
+                <button id="approveBtn"
+                        caption="msg://Approve"
+                        invoke="onApproveBtnClick"
+                        visible="false"/>
+                <button id="rejectBtn"
+                        caption="msg://Reject"
+                        invoke="onRejectBtnClick"
+                        visible="false"/>
+                <button id="hideBtn"
+                        caption="msg://Hide"
+                        invoke="onHideBtnClick"
+                        visible="false"/>
             </buttonsPanel>
         </groupTable>
     </layout>
