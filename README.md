@@ -13,7 +13,9 @@
 
 The most casual way to add comments to your app is to add comments frame to any of your entities viewer/editor screens go to it's XML file and add a frame:
 
-    `<frame id="comments" screen="discuss$Comment.browse" width="50%"/>`
+```XML
+<frame id="comments" screen="discuss$Comment.browse" width="50%"/>
+```
 
 Where `width` is an optional custom parameter, and make sure to add a following code to a controller:
 

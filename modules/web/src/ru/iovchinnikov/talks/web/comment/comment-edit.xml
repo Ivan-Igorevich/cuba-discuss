@@ -27,11 +27,14 @@
                     datasource="commentDs"
                     width="100%">
             <column width="100%">
-                <field editable="false"
-                       property="date"/>
-                <field editable="false"
+                <field id="timestamp"
+                       editable="false"
+                       property="updateTs"/>
+                <field id="author"
+                       editable="false"
                        property="author"/>
-                <field property="contents"
+                <field id="contents"
+                       property="contents"
                        rows="5"/>
             </column>
         </fieldGroup>

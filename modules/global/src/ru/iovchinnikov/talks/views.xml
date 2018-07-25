@@ -2,9 +2,11 @@
 <views xmlns="http://schemas.haulmont.com/cuba/view.xsd">
     <view class="ru.iovchinnikov.talks.entity.Comment"
           extends="_minimal"
-          name="comment-view">
+          name="comment-view"
+          systemProperties="true">
         <property name="parent"
                   view="_minimal">
+            <property name="updateTs"/>
         </property>
         <property name="contents"/>
         <property name="entity"/>

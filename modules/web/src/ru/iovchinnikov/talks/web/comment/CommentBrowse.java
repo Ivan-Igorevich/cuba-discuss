@@ -124,19 +124,10 @@ public class CommentBrowse extends AbstractLookup {
             params.put("user", parentInfo.currentUser);
             params.put("entity", parentInfo.currentEntity);
             params.put("eName", parentInfo.entityName);
-            params.put("ts", timeSource.currentTimestamp());
             commentsTableCreate.setWindowParams(params);
             commentsTableEdit.setCaption(getMessage("editView"));
             paramsService.setParams(params);
             commentsDs.refresh();
-            /*commentsDs.setQuery("SELECT e " +
-                                "FROM discuss$Comment e " +
-                                "WHERE e.entity " +
-                                "IN (SELECT n.id " +
-                                    "FROM " + parentInfo.entityName + " n " +
-                                    "WHERE n.id = '" + currentEntity + "') " +
-                                "ORDER BY e.date DESC");*/
-            //commentsDs.refresh();
             setFrameVisible(true);
         }
     }
@@ -148,7 +139,6 @@ public class CommentBrowse extends AbstractLookup {
             return;
         }
         Comment newComment = metadata.create(Comment.class);
-        newComment.setDate(timeSource.currentTimestamp());
         newComment.setAuthor(parentInfo.currentUser);
         newComment.setEntity(parentInfo.currentEntity);
         newComment.setEntityName(parentInfo.entityName);

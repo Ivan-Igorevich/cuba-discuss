@@ -17,7 +17,7 @@ import com.haulmont.chile.core.annotations.NamePattern;
 import com.haulmont.cuba.core.entity.annotation.Listeners;
 
 @Listeners("discuss_CommentListener")
-@NamePattern("%s %s|date,author")
+@NamePattern(" %s|author")
 @Table(name = "DISCUSS_COMMENT")
 @Entity(name = "discuss$Comment")
 public class Comment extends StandardEntity {
@@ -38,10 +38,6 @@ public class Comment extends StandardEntity {
     @JoinColumn(name = "AUTHOR_ID")
     protected User author;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "DATE_")
-    protected Date date;
-
     @Column(name = "ENTITY")
     protected UUID entity;
 
@@ -59,8 +55,6 @@ public class Comment extends StandardEntity {
     public void setCommentStatus(CommentStatus commentStatus) {
         this.commentStatus = commentStatus == null ? null : commentStatus.getId();
     }
-
-
 
     public void setHasAnswer(Boolean hasAnswer) {
         this.hasAnswer = hasAnswer;
@@ -101,14 +95,6 @@ public class Comment extends StandardEntity {
 
     public User getAuthor() {
         return author;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public Date getDate() {
-        return date;
     }
 
     public void setEntity(UUID entity) {

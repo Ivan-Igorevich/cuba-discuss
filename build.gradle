@@ -1,6 +1,6 @@
 
 buildscript {
-    ext.cubaVersion = '6.6.1'
+    ext.cubaVersion = '6.9.3'
     repositories {
         maven {
             url 'http://1.0.0.137:8010/nexus/content/groups/cuba-group/'
@@ -20,7 +20,7 @@ def coreModule = project(':talks-core')
 def guiModule = project(':talks-gui')
 def webModule = project(':talks-web')
 
-def servletApi = 'org.apache.tomcat:tomcat-servlet-api:8.0.26'
+def servletApi = 'javax.servlet:javax.servlet-api:3.1.0'
 
 
 apply(plugin: 'idea')
@@ -34,8 +34,8 @@ cuba {
     }
     artifact {
         group = 'ru.iovchinnikov.talks'
-        version = '1.2.1'
-        isSnapshot = false
+        version = '1.3.0'
+        isSnapshot = true
     }
     tomcat {
         dir = "$project.rootDir/deploy/tomcat"
@@ -214,7 +214,7 @@ task restart(dependsOn: ['stop', ':talks-core:deploy', ':talks-web:deploy'], des
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '3.4'
+    gradleVersion = '4.3.1'
 }
 
 apply from: 'extra.gradle'

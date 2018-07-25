@@ -11,7 +11,7 @@
                          datasourceClass="ru.iovchinnikov.talks.web.comment.commentDatasource"
                          view="comment-view">
             <query>
-                <![CDATA[select e from discuss$Comment e order by e.date]]>
+                <![CDATA[select e from discuss$Comment e order by e.updateTs]]>
             </query>
         </groupDatasource>
     </dsContext>
@@ -23,19 +23,19 @@
                     height="100%"
                     multiLineCells="true"
                     sortable="false"
-                    width="100%">
+                    width="938px">
             <actions>
                 <action id="create"/>
-                <action id="edit"/>
+                <action id="edit"
+                        icon="font-icon:EYE"/>
                 <action id="remove"/>
             </actions>
             <columns>
-                <column id="date"
-                        width="100"/>
                 <column id="hasAnswer"/>
-                <column id="contents"/>
+                <column id="updateTs"/>
                 <column id="author"/>
                 <column id="commentStatus"/>
+                <column id="contents"/>
             </columns>
             <rows datasource="commentsDs"/>
             <buttonsPanel id="buttonsPanel"
@@ -46,7 +46,8 @@
                         caption="msg://btnReplyCaption"
                         invoke="onBtnReplyClick"/>
                 <button id="editBtn"
-                        action="commentsTable.edit"/>
+                        action="commentsTable.edit"
+                        icon="font-icon:EYE"/>
                 <button id="removeBtn"
                         action="commentsTable.remove"/>
                 <button id="approveBtn"
