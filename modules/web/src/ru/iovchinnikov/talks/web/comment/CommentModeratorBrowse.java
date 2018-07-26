@@ -21,39 +21,34 @@ public class CommentModeratorBrowse extends AbstractLookup {
     private DataManager dataManager;
 
     public void onApproveBtnClick() {
-        if(selected(commentsPreDs)) {
+        if (selected(commentsPreDs)) {
             commentsPreDs.getItem().setCommentStatus(CommentStatus.approved);
             dataManager.commit(commentsPreDs.getItem());
         }
     }
-    
+
     public void onRejectBtnClick() {
-        if(selected(commentsPreDs)) {
+        if (selected(commentsPreDs)) {
             commentsPreDs.getItem().setCommentStatus(CommentStatus.rejected);
             dataManager.commit(commentsPreDs.getItem());
         }
     }
 
     public void onRemoveBtnClick() {
-        if(selected(commentsPostDs)) {
+        if (selected(commentsPostDs)) {
             commentsPostDs.getItem().setCommentStatus(CommentStatus.deleted);
             dataManager.commit(commentsPostDs.getItem());
         }
     }
 
     public void onRestoreBtnClick() {
-        if(selected(commentsPostDs)) {
+        if (selected(commentsPostDs)) {
             commentsPostDs.getItem().setCommentStatus(CommentStatus.approved);
             dataManager.commit(commentsPostDs.getItem());
         }
     }
 
-    private boolean selected(GroupDatasource groupDatasource){
-        if(groupDatasource.getItem()!=null){
-            return true;
-        }
-        else{
-            return false;
-        }
+    private boolean selected(GroupDatasource groupDatasource) {
+        return groupDatasource.getItem() != null;
     }
 }

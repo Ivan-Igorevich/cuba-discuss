@@ -32,10 +32,10 @@ public void ready() {
 }
 ```
 
-Where 
+Where
 `comments` is injected comments frame identifier;
-`metadata` is injected MetaData interface variable; 
-`isNew` is a boolean, which indicates, if current editor view is opened for a new entity or not. If there's no need to hide comments for new (created) entities, simply provide `false` to initializer. 
+`metadata` is injected MetaData interface variable;
+`isNew` is a boolean, which indicates, if current editor view is opened for a new entity or not. If there's no need to hide comments for new (created) entities, simply provide `false` to initializer. The most common way to know if the item is new - set `isNew` to true in method `@Override protected void initNewItem(T item)`
 And `userSession` is an injected UserSession interface.
 
 The second way is to add comments to your entity browser screen, so that you will need to provide information about the entity, you're about to attach comments to. The simplest way is to add a listener to DataSource changes of an entity browse table. In this case the XML will look the same as in the previous part, but the controller should consider re-initializing on every entity change. For example, if we are connecting comments to an entity, which is listed in a `groupTable`, we should add a `datasource` listener, which will initialize comments frame every time you select an item. And don't forget to add an initial screen hiding.

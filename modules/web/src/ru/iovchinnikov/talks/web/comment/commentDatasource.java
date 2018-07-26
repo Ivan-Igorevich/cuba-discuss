@@ -19,41 +19,38 @@ import java.util.UUID;
 /**
  * Created by Stepanov_ME on 23.07.2018.
  */
-public class commentDatasource extends CustomGroupDatasource<Comment,UUID> {
+public class commentDatasource extends CustomGroupDatasource<Comment, UUID> {
 
-    private DataManager dataManager=AppBeans.get(DataManager.class);
-
-    private ParamsService paramsService= AppBeans.get(ParamsService.class);
-
-    private ViewRepository viewRepository=AppBeans.get(ViewRepository.class);
+    private DataManager dataManager = AppBeans.get(DataManager.class);
+    private ParamsService paramsService = AppBeans.get(ParamsService.class);
+    private ViewRepository viewRepository = AppBeans.get(ViewRepository.class);
 
     @Override
     protected Collection<Comment> getEntities(Map<String, Object> params) {
-        Map<String,Object> dataParams=paramsService.getParams();
-        if(dataParams!=null) {
+        Map<String, Object> dataParams = paramsService.getParams();
+        if (dataParams != null) {
             LoadContext<Comment> loadContext = LoadContext.create(Comment.class);
-            loadContext.setQuery(LoadContext.createQuery("SELECT e FROM discuss$Comment e WHERE e.entity IN (SELECT n.id " +
-                    "FROM " + dataParams.get("eName") + " n WHERE n.id =:entity) ORDER BY e.date DESC")
-                    .setParameter("entity", dataParams.get("entity")));
-            loadContext.setView(viewRepository.getView(Comment.class,"comment-view"));
-            ArrayList<Comment> comments=new ArrayList<>(dataManager.loadList(loadContext));
-            for (Comment comment:comments){
-                if(comment.getCommentStatus()==null){
+            loadContext.setQuery(LoadContext.createQuery(
+                    "SELECT e FROM discuss$Comment e " +
+                    "WHERE e.entity IN (SELECT n.id FROM :nameParam n WHERE n.id = :entity) " +
+                    "ORDER BY e.updateTs DESC")
+                    .setParameter("entity", dataParams.get("entity"))
+                    .setParameter("nameParam", dataParams.get("eName")));
+            loadContext.setView(viewRepository.getView(Comment.class, "comment-view"));
+            ArrayList<Comment> comments = new ArrayList<>(dataManager.loadList(loadContext));
+            for (Comment comment : comments) {
+                if (comment.getCommentStatus() == null) {
                     continue;
                 }
-                if(comment.getCommentStatus().equals(CommentStatus.deleted)){
+                if (comment.getCommentStatus().equals(CommentStatus.deleted)) {
                     comment.setContents("Comment deleted");
                 }
             }
             comments.removeIf(comment -> {
-                if(comment.getCommentStatus()==null){
-                    return false;
-                }
-                return comment.getCommentStatus().equals(CommentStatus.rejected);
+                return comment.getCommentStatus() != null && comment.getCommentStatus().equals(CommentStatus.rejected);
             });
             return comments;
-        }
-        else {
+        } else {
             return new ArrayList<>();
         }
     }

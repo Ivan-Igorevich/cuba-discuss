@@ -28,7 +28,7 @@ apply(plugin: 'cuba')
 
 cuba {
     uploadRepository {
-        url = 'http://1.0.0.137:8010/nexus/content/repositories/releases/'
+        url = 'http://1.0.0.137:8010/nexus/content/repositories/snapshots/'
         user = 'admin'
         password = 'admin123'
     }
