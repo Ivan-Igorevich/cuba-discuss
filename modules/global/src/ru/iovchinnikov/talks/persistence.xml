@@ -4,5 +4,6 @@
     <persistence-unit name="discuss"
                       transaction-type="RESOURCE_LOCAL">
         <class>ru.iovchinnikov.talks.entity.Comment</class>
+        <class>ru.iovchinnikov.talks.entity.CommentPreference</class>
     </persistence-unit>
 </persistence>
