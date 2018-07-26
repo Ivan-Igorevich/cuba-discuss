@@ -30,12 +30,9 @@ public class commentDatasource extends CustomGroupDatasource<Comment, UUID> {
         Map<String, Object> dataParams = paramsService.getParams();
         if (dataParams != null) {
             LoadContext<Comment> loadContext = LoadContext.create(Comment.class);
-            loadContext.setQuery(LoadContext.createQuery(
-                    "SELECT e FROM discuss$Comment e " +
-                    "WHERE e.entity IN (SELECT n.id FROM :nameParam n WHERE n.id = :entity) " +
-                    "ORDER BY e.updateTs DESC")
-                    .setParameter("entity", dataParams.get("entity"))
-                    .setParameter("nameParam", dataParams.get("eName")));
+            loadContext.setQuery(LoadContext.createQuery("SELECT e FROM discuss$Comment e WHERE e.entity IN (SELECT n.id " +
+                    "FROM " + dataParams.get("eName") + " n WHERE n.id =:entity) ORDER BY e.updateTs DESC")
+                    .setParameter("entity", dataParams.get("entity")));
             loadContext.setView(viewRepository.getView(Comment.class, "comment-view"));
             ArrayList<Comment> comments = new ArrayList<>(dataManager.loadList(loadContext));
             for (Comment comment : comments) {
