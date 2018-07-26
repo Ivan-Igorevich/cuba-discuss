@@ -15,7 +15,8 @@ e.commentStatus='notApproved']]>
             </query>
         </groupDatasource>
         <groupDatasource id="commentsPostDs"
-                         class="ru.iovchinnikov.talks.entity.Comment">
+                         class="ru.iovchinnikov.talks.entity.Comment"
+                         view="comment-view">
             <query>
                 <![CDATA[select e from discuss$Comment e where
 e.commentStatus='approved' or e.commentStatus='deleted']]>
