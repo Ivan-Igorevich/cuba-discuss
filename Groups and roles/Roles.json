@@ -1,0 +1,335 @@
+[
+  {
+    "_entityName": "sec$Role",
+    "id": "64b0fdb3-4924-b0dd-2739-7d0382d7b735",
+    "locName": "Модерирование комментариев",
+    "description": "Доступ к функциям модерирования комментариев",
+    "type": "STANDARD",
+    "version": 1,
+    "permissions": [
+      {
+        "_entityName": "sec$Permission",
+        "id": "b4072f20-5b31-7a87-a185-a4b55f2d42af",
+        "role": {
+          "_entityName": "sec$Role",
+          "id": "64b0fdb3-4924-b0dd-2739-7d0382d7b735"
+        },
+        "type": "SCREEN",
+        "version": 1,
+        "value": 1,
+        "target": "discuss$CommentModerator.browse"
+      },
+      {
+        "_entityName": "sec$Permission",
+        "id": "7b459817-af57-1add-0693-077a64a40ace",
+        "role": {
+          "_entityName": "sec$Role",
+          "id": "64b0fdb3-4924-b0dd-2739-7d0382d7b735"
+        },
+        "type": "ENTITY_ATTR",
+        "version": 1,
+        "value": 2,
+        "target": "discuss$Comment:commentStatus"
+      },
+      {
+        "_entityName": "sec$Permission",
+        "id": "5bd8961c-c52c-9101-18f5-43b66710ee61",
+        "role": {
+          "_entityName": "sec$Role",
+          "id": "64b0fdb3-4924-b0dd-2739-7d0382d7b735"
+        },
+        "type": "SCREEN",
+        "version": 1,
+        "value": 1,
+        "target": "administration"
+      }
+    ],
+    "name": "CommentModerator"
+  },
+  {
+    "_entityName": "sec$Role",
+    "id": "a012a24e-8c89-220d-198f-d8d786b8cc8b",
+    "defaultRole": true,
+    "locName": "Запрет администрирования",
+    "description": "Запрет доступа к административным функциям",
+    "type": "STANDARD",
+    "version": 4,
+    "deletedBy": "admin",
+    "permissions": [
+      {
+        "_entityName": "sec$Permission",
+        "id": "dcdab2d6-31b3-cd55-8258-b87198480ac8",
+        "role": {
+          "_entityName": "sec$Role",
+          "id": "a012a24e-8c89-220d-198f-d8d786b8cc8b"
+        },
+        "type": "SCREEN",
+        "version": 3,
+        "value": 0,
+        "deletedBy": "admin",
+        "target": "jmxConsole"
+      },
+      {
+        "_entityName": "sec$Permission",
+        "id": "264ba96f-c5a7-5f09-e08a-01d06fd6ac45",
+        "role": {
+          "_entityName": "sec$Role",
+          "id": "a012a24e-8c89-220d-198f-d8d786b8cc8b"
+        },
+        "type": "SCREEN",
+        "version": 3,
+        "value": 0,
+        "deletedBy": "admin",
+        "target": "sec$Group.browse"
+      },
+      {
+        "_entityName": "sec$Permission",
+        "id": "d9f39b8a-92c5-5b5f-3916-d47e10a7200b",
+        "role": {
+          "_entityName": "sec$Role",
+          "id": "a012a24e-8c89-220d-198f-d8d786b8cc8b"
+        },
+        "type": "SCREEN",
+        "version": 3,
+        "value": 0,
+        "deletedBy": "admin",
+        "target": "entityLog"
+      },
+      {
+        "_entityName": "sec$Permission",
+        "id": "56432d17-7ba2-8132-463b-9b173697d558",
+        "role": {
+          "_entityName": "sec$Role",
+          "id": "a012a24e-8c89-220d-198f-d8d786b8cc8b"
+        },
+        "type": "SCREEN",
+        "version": 3,
+        "value": 0,
+        "deletedBy": "admin",
+        "target": "discuss$CommentModerator.browse"
+      },
+      {
+        "_entityName": "sec$Permission",
+        "id": "897d5073-ed85-ab5b-ca93-45d320acea35",
+        "role": {
+          "_entityName": "sec$Role",
+          "id": "a012a24e-8c89-220d-198f-d8d786b8cc8b"
+        },
+        "type": "SCREEN",
+        "version": 3,
+        "value": 0,
+        "deletedBy": "admin",
+        "target": "sys$Category.browse"
+      },
+      {
+        "_entityName": "sec$Permission",
+        "id": "bc41c275-2e7f-136b-f910-a00c2dd9bb0c",
+        "role": {
+          "_entityName": "sec$Role",
+          "id": "a012a24e-8c89-220d-198f-d8d786b8cc8b"
+        },
+        "type": "SCREEN",
+        "version": 3,
+        "value": 0,
+        "deletedBy": "admin",
+        "target": "administration"
+      },
+      {
+        "_entityName": "sec$Permission",
+        "id": "5525cea5-f258-31bd-0a29-02464dfc3b5c",
+        "role": {
+          "_entityName": "sec$Role",
+          "id": "a012a24e-8c89-220d-198f-d8d786b8cc8b"
+        },
+        "type": "SCREEN",
+        "version": 3,
+        "value": 0,
+        "deletedBy": "admin",
+        "target": "sys$SendingMessage.browse"
+      },
+      {
+        "_entityName": "sec$Permission",
+        "id": "ba988bc8-6bc8-d281-ba1d-9a557e48c2b5",
+        "role": {
+          "_entityName": "sec$Role",
+          "id": "a012a24e-8c89-220d-198f-d8d786b8cc8b"
+        },
+        "type": "SCREEN",
+        "version": 3,
+        "value": 0,
+        "deletedBy": "admin",
+        "target": "sec$Role.browse"
+      },
+      {
+        "_entityName": "sec$Permission",
+        "id": "46b4ae1a-cece-1520-e0f1-53ac9c10d1c1",
+        "role": {
+          "_entityName": "sec$Role",
+          "id": "a012a24e-8c89-220d-198f-d8d786b8cc8b"
+        },
+        "type": "SCREEN",
+        "version": 3,
+        "value": 0,
+        "deletedBy": "admin",
+        "target": "sys$ScheduledTask.browse"
+      },
+      {
+        "_entityName": "sec$Permission",
+        "id": "7f0684a6-27dc-51aa-e074-2df480435d3b",
+        "role": {
+          "_entityName": "sec$Role",
+          "id": "a012a24e-8c89-220d-198f-d8d786b8cc8b"
+        },
+        "type": "SCREEN",
+        "version": 3,
+        "value": 0,
+        "deletedBy": "admin",
+        "target": "serverLog"
+      },
+      {
+        "_entityName": "sec$Permission",
+        "id": "0ef21956-c17c-3680-b889-981daee906d5",
+        "role": {
+          "_entityName": "sec$Role",
+          "id": "a012a24e-8c89-220d-198f-d8d786b8cc8b"
+        },
+        "type": "SCREEN",
+        "version": 3,
+        "value": 0,
+        "deletedBy": "admin",
+        "target": "sys$LockInfo.browse"
+      },
+      {
+        "_entityName": "sec$Permission",
+        "id": "1277c247-4e60-783a-e72c-db8beddb08a6",
+        "role": {
+          "_entityName": "sec$Role",
+          "id": "a012a24e-8c89-220d-198f-d8d786b8cc8b"
+        },
+        "type": "SCREEN",
+        "version": 3,
+        "value": 0,
+        "deletedBy": "admin",
+        "target": "entityRestore"
+      },
+      {
+        "_entityName": "sec$Permission",
+        "id": "323c5f8c-6a7e-3e60-ee35-5950625a6a81",
+        "role": {
+          "_entityName": "sec$Role",
+          "id": "a012a24e-8c89-220d-198f-d8d786b8cc8b"
+        },
+        "type": "SCREEN",
+        "version": 3,
+        "value": 0,
+        "deletedBy": "admin",
+        "target": "performanceStatistics"
+      },
+      {
+        "_entityName": "sec$Permission",
+        "id": "f8914cb1-fbb3-50df-0e9e-25350c18002e",
+        "role": {
+          "_entityName": "sec$Role",
+          "id": "a012a24e-8c89-220d-198f-d8d786b8cc8b"
+        },
+        "type": "SCREEN",
+        "version": 3,
+        "value": 0,
+        "deletedBy": "admin",
+        "target": "sec$UserSessionEntity.browse"
+      },
+      {
+        "_entityName": "sec$Permission",
+        "id": "ad1d574f-f2d6-51a3-9c6a-ebcda22a3a79",
+        "role": {
+          "_entityName": "sec$Role",
+          "id": "a012a24e-8c89-220d-198f-d8d786b8cc8b"
+        },
+        "type": "SCREEN",
+        "version": 3,
+        "value": 0,
+        "deletedBy": "admin",
+        "target": "entityInspector.browse"
+      },
+      {
+        "_entityName": "sec$Permission",
+        "id": "dab9cf7b-dc22-4cab-9d0e-290400fab648",
+        "role": {
+          "_entityName": "sec$Role",
+          "id": "a012a24e-8c89-220d-198f-d8d786b8cc8b"
+        },
+        "type": "SCREEN",
+        "version": 3,
+        "value": 0,
+        "deletedBy": "admin",
+        "target": "sec$SessionLogEntry.browse"
+      },
+      {
+        "_entityName": "sec$Permission",
+        "id": "ea8a0ad7-1e0b-598f-b70b-cc33ecd399c1",
+        "role": {
+          "_entityName": "sec$Role",
+          "id": "a012a24e-8c89-220d-198f-d8d786b8cc8b"
+        },
+        "type": "ENTITY_ATTR",
+        "version": 3,
+        "value": 0,
+        "deletedBy": "admin",
+        "target": "discuss$Comment:commentStatus"
+      },
+      {
+        "_entityName": "sec$Permission",
+        "id": "444bda35-c4ba-a88e-4e33-c146c5025368",
+        "role": {
+          "_entityName": "sec$Role",
+          "id": "a012a24e-8c89-220d-198f-d8d786b8cc8b"
+        },
+        "type": "SCREEN",
+        "version": 3,
+        "value": 0,
+        "deletedBy": "admin",
+        "target": "screenProfiler"
+      },
+      {
+        "_entityName": "sec$Permission",
+        "id": "e90f2d8d-87ae-c806-e645-ab309e30ddf5",
+        "role": {
+          "_entityName": "sec$Role",
+          "id": "a012a24e-8c89-220d-198f-d8d786b8cc8b"
+        },
+        "type": "SCREEN",
+        "version": 3,
+        "value": 0,
+        "deletedBy": "admin",
+        "target": "sys$FileDescriptor.browse"
+      },
+      {
+        "_entityName": "sec$Permission",
+        "id": "48ac10d7-e31d-3919-e016-ec1a19f8a391",
+        "role": {
+          "_entityName": "sec$Role",
+          "id": "a012a24e-8c89-220d-198f-d8d786b8cc8b"
+        },
+        "type": "SCREEN",
+        "version": 3,
+        "value": 0,
+        "deletedBy": "admin",
+        "target": "sec$User.browse"
+      },
+      {
+        "_entityName": "sec$Permission",
+        "id": "e7a28f02-63ec-f130-4c91-c336f5011107",
+        "role": {
+          "_entityName": "sec$Role",
+          "id": "a012a24e-8c89-220d-198f-d8d786b8cc8b"
+        },
+        "type": "SCREEN",
+        "version": 3,
+        "value": 0,
+        "deletedBy": "admin",
+        "target": "appProperties"
+      }
+    ],
+    "name": "DenyAdminFunctions"
+  }
+]
