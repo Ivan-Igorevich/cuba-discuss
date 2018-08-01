@@ -15,7 +15,8 @@ e.commentStatus='notApproved']]>
             </query>
         </groupDatasource>
         <groupDatasource id="commentsPostDs"
-                         class="ru.iovchinnikov.talks.entity.Comment">
+                         class="ru.iovchinnikov.talks.entity.Comment"
+                         view="comment-view">
             <query>
                 <![CDATA[select e from discuss$Comment e where
 e.commentStatus='approved' or e.commentStatus='deleted']]>
@@ -25,81 +26,85 @@ e.commentStatus='approved' or e.commentStatus='deleted']]>
     <dialogMode height="600"
                 width="800"/>
     <layout spacing="true">
-        <tabSheet>
-            <tab id="premoderationTab"
-                 caption="msg://Premoderation"
-                 margin="true,false,false,false"
-                 spacing="true">
-                <filter id="filterPre"
-                        applyTo="commentsPreTable"
-                        datasource="commentsPreDs">
-                    <properties include=".*"/>
-                </filter>
-                <groupTable id="commentsPreTable"
-                            height="100%"
-                            width="100%">
-                    <actions>
-                        <action id="edit"/>
-                    </actions>
-                    <columns>
-                        <column id="parent"/>
-                        <column id="hasAnswer"/>
-                        <column id="contents"/>
-                        <column id="author"/>
-                        <column id="date"/>
-                        <column id="entity"/>
-                        <column id="entityName"/>
-                        <column id="commentStatus"/>
-                    </columns>
-                    <rows datasource="commentsPreDs"/>
-                    <rowsCount/>
-                    <buttonsPanel id="buttonsPrePanel"
-                                  alwaysVisible="true">
-                        <button id="approveBtn"
-                                caption="msg://Approve"
-                                invoke="onApproveBtnClick"/>
-                        <button id="rejectBtn"
-                                caption="msg://Reject"
-                                invoke="onRejectBtnClick"/>
-                    </buttonsPanel>
-                </groupTable>
-            </tab>
-            <tab id="postmoderationTab"
-                 caption="msg://Postmoderation"
-                 margin="true,false,false,false"
-                 spacing="true">
-                <filter id="filterPost"
-                        applyTo="commentsPostTable"
-                        datasource="commentsPostDs">
-                    <properties include=".*"/>
-                </filter>
-                <groupTable id="commentsPostTable"
-                            height="100%"
-                            width="100%">
-                    <actions>
-                        <action id="edit"/>
-                    </actions>
-                    <columns>
-                        <column id="hasAnswer"/>
-                        <column id="contents"/>
-                        <column id="date"/>
-                        <column id="entity"/>
-                        <column id="entityName"/>
-                        <column id="commentStatus"/>
-                    </columns>
-                    <rows datasource="commentsPostDs"/>
-                    <rowsCount/>
-                    <buttonsPanel id="buttonsPostPanel"
-                                  alwaysVisible="true">
-                        <button id="removeBtn"
-                                caption="msg://Hide"
-                                invoke="onRemoveBtnClick"/>
-                        <button id="restoreBtn"
-                                caption="msg://Restore"
-                                invoke="onRestoreBtnClick"/>
-                    </buttonsPanel>
-                </groupTable>
-            </tab>
-        </tabSheet>
+        <vbox spacing="true">
+            <button id="moderationTypeBtn"
+                    invoke="onModerationTypeBtnClick"/>
+            <tabSheet>
+                <tab id="premoderationTab"
+                     caption="msg://Premoderation"
+                     margin="true,false,false,false"
+                     spacing="true">
+                    <filter id="filterPre"
+                            applyTo="commentsPreTable"
+                            datasource="commentsPreDs">
+                        <properties include=".*"/>
+                    </filter>
+                    <groupTable id="commentsPreTable"
+                                height="100%"
+                                width="100%">
+                        <actions>
+                            <action id="edit"/>
+                        </actions>
+                        <columns>
+                            <column id="parent"/>
+                            <column id="hasAnswer"/>
+                            <column id="contents"/>
+                            <column id="author"/>
+                            <column id="updateTs"/>
+                            <column id="entity"/>
+                            <column id="entityName"/>
+                            <column id="commentStatus"/>
+                        </columns>
+                        <rows datasource="commentsPreDs"/>
+                        <rowsCount/>
+                        <buttonsPanel id="buttonsPrePanel"
+                                      alwaysVisible="true">
+                            <button id="approveBtn"
+                                    caption="msg://Approve"
+                                    invoke="onApproveBtnClick"/>
+                            <button id="rejectBtn"
+                                    caption="msg://Reject"
+                                    invoke="onRejectBtnClick"/>
+                        </buttonsPanel>
+                    </groupTable>
+                </tab>
+                <tab id="postmoderationTab"
+                     caption="msg://Postmoderation"
+                     margin="true,false,false,false"
+                     spacing="true">
+                    <filter id="filterPost"
+                            applyTo="commentsPostTable"
+                            datasource="commentsPostDs">
+                        <properties include=".*"/>
+                    </filter>
+                    <groupTable id="commentsPostTable"
+                                height="100%"
+                                width="100%">
+                        <actions>
+                            <action id="edit"/>
+                        </actions>
+                        <columns>
+                            <column id="hasAnswer"/>
+                            <column id="contents"/>
+                            <column id="updateTs"/>
+                            <column id="entity"/>
+                            <column id="entityName"/>
+                            <column id="commentStatus"/>
+                        </columns>
+                        <rows datasource="commentsPostDs"/>
+                        <rowsCount/>
+                        <buttonsPanel id="buttonsPostPanel"
+                                      alwaysVisible="true">
+                            <button id="removeBtn"
+                                    caption="msg://Hide"
+                                    invoke="onRemoveBtnClick"/>
+                            <button id="restoreBtn"
+                                    caption="msg://Restore"
+                                    invoke="onRestoreBtnClick"/>
+                        </buttonsPanel>
+                    </groupTable>
+                </tab>
+            </tabSheet>
+        </vbox>
     </layout>
 </window>
